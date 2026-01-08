@@ -10,62 +10,88 @@
 }
 
 body {
-  font-family: "Roboto", system-ui, sans-serif;
+  font-family: var(--font-primary);
   line-height: 1.6;
   min-height: 100vh;
-  background-color: var(--bg-color);
+  background-image: var(--bg-color);
   color: var(--text-color);
 }
 
 /* ================================
-   🖋️ FONTS
-================================== */
-@font-face { font-family: "Montserrat"; src: url("./src/Fonts/Montserrat-Regular.ttf") format("truetype"); font-display: swap; }
-@font-face { font-family: "Roboto"; src: url("./src/Fonts/Roboto-Regular.ttf") format("truetype"); font-display: swap; }
-
-/* ================================
    🎨 VARIABLES
 ================================== */
+
 :root {
-  /* COLORS */
-  --color1: #373f51;
-  --color2: #d8dbe2;
-  --color3: #61e786;
-  --color4: #d81e5b;
-  --color5: #f19a3e;
-  --color1-opa: rgba(55,63,81,0.9);
-  --realWhite: #fafafa;
-
   /* TEXT & BG */
-  --text-color: #222;
-  --bg-color: #fafafa;
-
-  /* Radius & Shadows */
-  --radius: 8px;
-  --shadow: 0 2px 10px rgba(0,0,0,0.05);
+  --bg-color: radial-gradient(circle at 50% 20%, #2a3d5a 0%, #304565 100%);
+  --bg-top-bar: radial-gradient(circle at 50% 20%, #2b3d5c 0%, #283d61 100%);
+  --bg-section-header: radial-gradient(
+    circle at 50% 20%,
+    #2b3e5d 0%,
+    #384f73 100%
+  );
+  /* INPUT - FIELD - BG */
+  --bg-input-field: #f9f9f9;
+  /* CARD - BG */
+  --bg-card-in: #e7e8ec;
+  --bg-card-out: #dee2e7;
+  /* TEXT - COLOR */
+  --text-color: #fafafc;
+  --standard-text-color: #182230;
+  /* BORDER - COLOR */
+  --border-color1: #d2d6dc;
+  --border-color2: #c2c7d0;
+  /* BUTTON - COLOR */
+  --bg-primary-button: radial-gradient(
+    circle at 50% 20%,
+    #206bc2 0%,
+    #033f85 100%
+  );
+  --bg-danger-button: radial-gradient(
+    circle at 50% 20%,
+    #d74850 0%,
+    #a2272a 100%
+  );
+  --bg-neutral-button: radial-gradient(
+    circle at 50% 20%,
+    #d3d6dd 0%,
+    #b2bac5 100%
+  );
+  /* STATES - BADGES */
+  --bg-open-state: #c83c42;
+  --bg-pay-state: #448b4f;
+  --bg-overdue-state: #e57938;
 
   /* Fonts */
-  --font-primary: "Roboto", sans-serif;
-  --font-secondary: "Montserrat", sans-serif;
+  --font-primary: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-section-header: 1.375rem;
+  --font-form-label: 1rem;
+  --font-input-text: 1rem;
+  --font-button-text: 1.25rem;
+  --font-state-text: 1rem;
 }
 
 /* ================================
    🔠 TYPE SCALE
 ================================== */
-h1 { font-size: 5.613rem; font-family: var(--font-secondary); }
-h2 { font-size: 4.206rem; font-family: var(--font-secondary); }
-h3 { font-size: 3.156rem; font-family: var(--font-secondary); }
-h4 { font-size: 2.369rem; font-family: var(--font-primary); }
-h5 { font-size: 1.775rem; font-family: var(--font-primary); }
-h6 { font-size: 1.331rem; font-family: var(--font-primary); }
-p { font-size: 1rem; font-family: var(--font-primary); }
-small { font-size: 0.75rem; font-family: var(--font-primary); }
+h1 {
+  font-size: 3.375rem;
+  font-weight: 700;
+}
+h2 {
+  font-size: 2.5rem;
+  font-family: var(--font-primary);
+}
+p {
+  font-size: 1rem;
+  font-family: var(--font-primary);
+}
 
 /* ================================
    📦 CONTAINER
 ================================== */
 .container {
-  width: 95%;
+  width: 90%;
   max-width: 1600px;
   padding: 0 1rem;
   margin: 0 auto;
@@ -75,70 +101,16 @@ small { font-size: 0.75rem; font-family: var(--font-primary); }
    💡 COMPONENTS
 ================================== */
 .btn {
-  background: var(--color3);
-  color: var(--color1);
+  font-size: var(--font-button-text);
   font-weight: 600;
   border: none;
-  border-radius: var(--radius);
   padding: 0.75rem 1.5rem;
   cursor: pointer;
   transition: all 0.2s ease;
 }
-.btn:hover { background: var(--color5); transform: translateY(-2px); }
 
 .card {
-  background: white;
-  border-radius: var(--radius);
+  background: var(--bg-card-in);
   padding: 1.5rem;
   margin: 1rem 0;
-  box-shadow: var(--shadow);
 }
-
-/* ================================
-   🧩 GRID & FLEX
-================================== */
-.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-.flex { display: flex; gap: 1rem; align-items: center; justify-content: center; }
-
-/* ================================
-   🗂️ NAVBAR & FOOTER
-================================== */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 0;
-}
-.nav-links { list-style: none; display: flex; gap: 1rem; }
-.nav-links a { text-decoration: none; color: var(--color1); }
-.nav-links a:hover { color: var(--color3); }
-
-.footer { text-align: center; padding: 2rem 0; background-color: var(--color2); }
-
-/* ================================
-   🛠️ FORMULARE
-================================== */
-form { display: flex; flex-direction: column; gap: 0.75rem; }
-input, textarea { padding: 0.5rem; border: 1px solid #ccc; border-radius: var(--radius); }
-
-/* ================================
-   🌙 DARK MODE
-================================== */
-body.dark-mode {
-  background-color: #222;
-  color: #fafafa;
-}
-body.dark-mode .card { background-color: #333; color: #fafafa; }
-body.dark-mode .navbar, body.dark-mode .footer { background-color: #111; color: #fafafa; }
-body.dark-mode .btn { color: #222; }
-
-/* ================================
-   📱 MEDIA QUERIES
-================================== */
-@media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
-@media (min-width: 576px) { .container { width: 90%; } }
-@media (min-width: 768px) { .container { width: 85%; html { font-size: 1.1rem; } } }
-@media (min-width: 992px) { html { font-size: 1.125rem; } }
-@media (min-width: 1200px) { .container { width: 80%; html { font-size: 1.15rem; } } }
-@media (min-width: 1400px) { .container { width: 70%; html { font-size: 1.2rem; } } }
-@media (min-width: 1920px) { .container { width: 60%; html { font-size: 1.3rem; } } }
