@@ -11,7 +11,6 @@
 
 body {
   font-family: var(--font-primary);
-  line-height: 1.6;
   min-height: 100vh;
   background-image: var(--bg-color);
   color: var(--text-color);
@@ -25,11 +24,7 @@ body {
   /* TEXT & BG */
   --bg-color: radial-gradient(circle at 50% 20%, #2a3d5a 0%, #304565 100%);
   --bg-top-bar: radial-gradient(circle at 50% 20%, #2b3d5c 0%, #283d61 100%);
-  --bg-section-header: radial-gradient(
-    circle at 50% 20%,
-    #2b3e5d 0%,
-    #384f73 100%
-  );
+  --bg-section-header: linear-gradient(to bottom, #324a73 0%, #263b5e 100%);
 
   /* INPUT - FIELD - BG */
   --bg-input-field: #f9f9f9;
@@ -83,8 +78,8 @@ body {
    🔠 TYPE SCALE
 ================================== */
 h1 {
-  font-size: 3.375rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 500;
 }
 h2 {
   font-size: 2.5rem;
@@ -123,4 +118,32 @@ p {
   background: var(--bg-card-in);
   padding: 1.5rem;
   margin: 1rem 0;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-image: var(--bg-section-header);
+  padding: 1.25rem 2rem 1.75rem 2rem;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: translateY(4px);
+  position: relative;
+}
+
+.folder-open {
+  width: 3rem;
+  height: 3rem;
+}
+
+.euro {
+  position: absolute;
+  top: 1.5rem;
+  width: 1rem;
+  height: 1rem;
 }
