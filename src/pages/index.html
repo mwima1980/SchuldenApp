@@ -3,26 +3,87 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/SchuldenApp/src/css/style.css" />
+    <link rel="stylesheet" href="/src/css/style.css" />
     <title>Schulden App</title>
   </head>
   <body>
     <div class="container">
       <header class="header-container">
-        <h1>Schuldeübersicht</h1>
+        <h1>Schuldenübersicht</h1>
         <div class="icon-container">
           <img
             class="folder-open"
-            src="/SchuldenApp/src/assets/images/icons/folder-open.svg"
+            src="/src/assets/images/icons/folder-open.svg"
             alt=""
           />
-          <img
-            class="euro"
-            src="/SchuldenApp/src/assets/images/icons/euro.svg"
-            alt=""
-          />
+          <img class="euro" src="/src/assets/images/icons/euro.svg" alt="" />
         </div>
       </header>
+      <main class="page-content">
+        <section class="card">
+          <section class="card-input">
+            <header class="card-input-heading">
+              <h2>Fall Eingabe</h2>
+            </header>
+            <form action="#" class="form-input" role="">
+              <div class="form-row">
+                <label for="input-az">Az:</label>
+                <input type="text" name="aktenzeichen" id="aktenzeichen" />
+              </div>
+              <div class="form-row">
+                <label for="creditor">Gläubiger:</label>
+                <input type="text" name="creditor" id="creditor" />
+              </div>
+              <div class="form-row">
+                <label for="pay">Betrag:</label>
+                <input type="text" name="pay" id="pay" />
+              </div>
+              <div class="form-row">
+                <label for="date">Fällig am:</label>
+                <input type="date" name="date" id="date" />
+              </div>
+              <div class="form-row">
+                <label for="status">Status:</label>
+                <select name="status" id="status">
+                  <option value="leer"></option>
+                  <option value="offen">offen</option>
+                  <option value="bezahlt">bezahlt</option>
+                  <option value="überfällig">überfällig</option>
+                </select>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn-default btn-primary">
+                  Speichern
+                </button>
+                <button type="button" class="btn-default btn-danger">
+                  Löschen
+                </button>
+                <button type="reset" class="btn-default btn-neutral">
+                  Zurücksetzen
+                </button>
+              </div>
+            </form>
+          </section>
+          <section class="card-search">
+            <header class="card-input-heading">
+              <h2>Fall Suche</h2>
+            </header>
+
+            <form class="form-search" role="search">
+              <label for="az-input" class="sr-only">Aktenzeichen-Input</label>
+              <input
+                type="search"
+                name="az-input"
+                id="az-input"
+                placeholder="Hier Aktenzeichen angeben..."
+              />
+              <button type="submit" class="btn-default btn-search">
+                Speichern
+              </button>
+            </form>
+          </section>
+        </section>
+      </main>
     </div>
   </body>
 </html>
