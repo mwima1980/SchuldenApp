@@ -64,8 +64,9 @@
               </div>
             </form>
           </section>
-          <section class="card-search">
-            <header class="card-input-heading">
+
+          <div class="card-search">
+            <header class="card-search-heading">
               <h2>Fall Suche</h2>
             </header>
 
@@ -78,10 +79,72 @@
                 placeholder="Hier Aktenzeichen angeben..."
               />
               <button type="submit" class="btn-default btn-search">
-                Speichern
+                Suchen
               </button>
             </form>
-          </section>
+            <header class="card-search-heading card-list">
+              <h2>Schuldenliste</h2>
+            </header>
+            <div class="table-wrap">
+              <table class="debt-table">
+                <thead>
+                  <tr>
+                    <th>Aktenz.</th>
+                    <th>Gläubiger</th>
+                    <th>Betrag</th>
+                    <th>Fällig am</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody class="debt-tbody">
+                  <tr>
+                    <td>AZ-2026-001</td>
+                    <td>Inkasso GmbH</td>
+                    <td>125,00 €</td>
+                    <td>10.02.2026</td>
+                    <td><span class="state-open">offen</span></td>
+                  </tr>
+                  <tr>
+                    <td>AZ-2026-002</td>
+                    <td>Telekom</td>
+                    <td>59,99 €</td>
+                    <td>05.01.2026</td>
+                    <td>
+                      <span class="state-overdue">fällig</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>AZ-2026-003</td>
+                    <td>Stadtwerke</td>
+                    <td>40,00 €</td>
+                    <td>01.01.2026</td>
+                    <td><span class="state-pay">bezahlt</span></td>
+                  </tr>
+                  <tr>
+                    <td>AZ-2026-003</td>
+                    <td>Stadtwerke</td>
+                    <td>40,00 €</td>
+                    <td>01.01.2026</td>
+                    <td><span class="state-pay">bezahlt</span></td>
+                  </tr>
+                  <tr>
+                    <td>AZ-2026-003</td>
+                    <td>Stadtwerke</td>
+                    <td>40,00 €</td>
+                    <td>01.01.2026</td>
+                    <td><span class="state-pay">bezahlt</span></td>
+                  </tr>
+                  <tr>
+                    <td>AZ-2026-003</td>
+                    <td>Stadtwerke</td>
+                    <td>40,00 €</td>
+                    <td>01.01.2026</td>
+                    <td><span class="state-pay">bezahlt</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </section>
       </main>
     </div>

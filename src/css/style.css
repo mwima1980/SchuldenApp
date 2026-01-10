@@ -84,17 +84,20 @@ body {
   color: var(--text-color);
   padding: 0.5rem 0.75rem;
   cursor: pointer;
+  border-radius: 6px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.25) inset,
+    0 2px 6px rgba(0, 0, 0, 0.18);
 }
 
 /* ================================
    🔠 TYPE SCALE
 ================================== */
 h1 {
-  font-size: 2.25rem;
+  font-size: 1.75rem;
   font-weight: 500;
 }
 h2 {
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-family: var(--font-primary);
   font-weight: 500;
 }
@@ -107,10 +110,9 @@ p {
    📦 CONTAINER
 ================================== */
 .container {
-  width: 90%;
+  width: 100%;
   max-width: 1600px;
   margin: 0 auto;
-  height: 300px;
 }
 
 /* ================================
@@ -157,24 +159,26 @@ p {
 
 /* MAIN - SECTION */
 .page-content {
-  background-color: var(--bg-card-out); /* dunkler Rahmen / Untergrund */
+  background-color: var(--bg-card-out);
   padding: 1rem;
 }
 
 .card {
   display: flex;
-  gap: 2rem;
-  background-color: var(--bg-card-in); /* hellere Panels auf dunkler Fläche */
+  gap: 1rem;
   padding: 1rem;
-  border: 0.75px solid var(--border-color2);
-  margin-top: 0.5rem;
   color: var(--standard-text-color);
 }
 
 .card-input {
   width: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.08);
+  background-color: var(--bg-card-in);
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
+.card-search-heading,
 .card-input-heading {
   background-image: var(--bg-section-header);
   margin-top: 0.25rem;
@@ -186,6 +190,7 @@ p {
   margin-left: auto;
   margin-right: auto;
 }
+
 .form-input {
   display: flex;
   flex-direction: column;
@@ -196,6 +201,7 @@ p {
   margin-left: auto;
   margin-right: auto;
 }
+
 .form-row {
   display: flex;
   align-items: center;
@@ -203,7 +209,9 @@ p {
   padding-right: 1rem;
   padding-bottom: 1.1rem;
   border-bottom: 0.0625rem solid var(--border-color2);
+  font-size: 0.9rem;
 }
+
 .form-row label {
   flex: 0 0 100px;
   text-align: left;
@@ -231,25 +239,57 @@ p {
   margin-left: auto;
   margin-right: auto;
 }
+
 .btn-primary {
   background-image: var(--bg-primary-button);
 }
+
+.btn-primary:hover {
+  background-image: radial-gradient(
+    circle at 50% 20%,
+    #114d93 0%,
+    #033f85 100%
+  );
+}
+
 .btn-danger {
   background-image: var(--bg-danger-button);
 }
+
+.btn-danger:hover {
+  background-image: radial-gradient(
+    circle at 50% 20%,
+    #a73339 0%,
+    #a2272a 100%
+  );
+}
+
 .btn-neutral {
   background-image: var(--bg-neutral-button);
   color: #000000;
 }
+
+.btn-neutral:hover {
+  background-image: radial-gradient(
+    circle at 50% 20%,
+    #a3a5ab 0%,
+    #b2bac5 100%
+  );
+  color: #000000;
+}
 .card-search {
   width: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.08);
+  background-color: var(--bg-card-in);
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .form-search {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
   margin-top: 1rem;
   padding-bottom: 1.1rem;
   border-bottom: 0.0625rem solid var(--border-color2);
@@ -280,4 +320,70 @@ p {
 
 .btn-search {
   background-image: var(--bg-primary-button);
+  width: 20%;
+}
+
+.btn-search:hover {
+  background-image: radial-gradient(
+    circle at 50% 20%,
+    #114d93 0%,
+    #033f85 100%
+  );
+}
+
+.card-list {
+  margin-top: 1rem;
+}
+
+.debt-table {
+  width: 75%;
+  border-collapse: collapse;
+  table-layout: fixed; /* saubere Spaltenbreiten */
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--standard-text-color);
+}
+
+.debt-table th,
+.debt-table td {
+  padding: 0.6rem 0.9rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color2);
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.75rem;
+}
+
+.debt-table thead th {
+  background-image: radial-gradient(
+    circle at 50% 20%,
+    #d3d6dd 0%,
+    #b2bac5 100%
+  );
+
+  font-weight: 700;
+}
+
+.debt-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.state-pay {
+  background-color: var(--bg-pay-state);
+  padding: 1rem;
+  color: var(--text-color);
+}
+
+.state-overdue {
+  background-color: var(--bg-overdue-state);
+  padding: 1rem 1.4rem;
+  color: var(--text-color);
+}
+
+.state-open {
+  background-color: var(--bg-open-state);
+  padding: 1rem 1.35rem;
+  color: var(--text-color);
 }
