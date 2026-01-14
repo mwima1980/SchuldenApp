@@ -318,6 +318,18 @@ p {
   padding-left: 1rem;
 }
 
+input:invalid,
+select:invalid,
+textarea:invalid {
+  border: 1px solid red;
+}
+
+input:valid,
+select:valid,
+textarea:valid {
+  border: 1px solid green;
+}
+
 .btn-search {
   background-image: var(--bg-primary-button);
   width: 20%;
@@ -335,10 +347,14 @@ p {
   margin-top: 1rem;
 }
 
+table {
+  text-align: center;
+}
+
 .debt-table {
   width: 75%;
   border-collapse: collapse;
-  table-layout: fixed; /* saubere Spaltenbreiten */
+  table-layout: fixed;
   margin-left: auto;
   margin-right: auto;
   color: var(--standard-text-color);
@@ -347,7 +363,6 @@ p {
 .debt-table th,
 .debt-table td {
   padding: 0.6rem 0.9rem;
-  text-align: left;
   border-bottom: 1px solid var(--border-color2);
   vertical-align: middle;
   overflow: hidden;

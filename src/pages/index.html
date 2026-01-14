@@ -31,40 +31,57 @@
             <header class="card-input-heading">
               <h2>Fall Eingabe</h2>
             </header>
-            <form action="#" class="form-input" role="">
+            <form action="#" class="form-input" id="creditor-form">
               <div class="form-row">
-                <label for="input-az">Az:</label>
-                <input type="text" name="aktenzeichen" id="aktenzeichen" />
+                <label for="aktenzeichen">Az:</label>
+                <input
+                  type="text"
+                  name="aktenzeichen"
+                  id="aktenzeichen"
+                  required
+                />
               </div>
               <div class="form-row">
                 <label for="creditor">Gläubiger:</label>
-                <input type="text" name="creditor" id="creditor" />
+                <input type="text" name="creditor" id="creditor" required />
               </div>
               <div class="form-row">
                 <label for="pay">Betrag:</label>
-                <input type="text" name="pay" id="pay" />
+                <input type="text" name="pay" id="pay" required />
               </div>
               <div class="form-row">
                 <label for="date">Fällig am:</label>
-                <input type="date" name="date" id="date" />
+                <input type="date" name="date" id="date" required />
               </div>
               <div class="form-row">
                 <label for="status">Status:</label>
-                <select name="status" id="status">
-                  <option value="leer"></option>
+                <select name="status" id="state" required>
+                  <option value="" selected disabled>Bitte wählen</option>
                   <option value="offen">offen</option>
                   <option value="bezahlt">bezahlt</option>
                   <option value="überfällig">überfällig</option>
                 </select>
               </div>
               <div class="form-actions">
-                <button type="submit" class="btn-default btn-primary">
+                <button
+                  type="submit"
+                  id="btn-save"
+                  class="btn-default btn-primary"
+                >
                   Speichern
                 </button>
-                <button type="button" class="btn-default btn-danger">
+                <button
+                  type="button"
+                  id="btn-delete"
+                  class="btn-default btn-danger"
+                >
                   Löschen
                 </button>
-                <button type="reset" class="btn-default btn-neutral">
+                <button
+                  type="reset"
+                  id="btn-reset"
+                  class="btn-default btn-neutral"
+                >
                   Zurücksetzen
                 </button>
               </div>
@@ -102,15 +119,15 @@
                     <th>Status</th>
                   </tr>
                 </thead>
-                <tbody class="debt-tbody">
-                  <tr>
+                <tbody class="debt-tbody" id="tbody">
+                  <!-- <tr>
                     <td>AZ-2026-001</td>
                     <td>Inkasso GmbH</td>
                     <td>125,00 €</td>
                     <td>10.02.2026</td>
                     <td><span class="state-open">offen</span></td>
-                  </tr>
-                  <tr>
+                  </tr> -->
+                  <!-- <tr>
                     <td>AZ-2026-002</td>
                     <td>Telekom</td>
                     <td>59,99 €</td>
@@ -146,7 +163,7 @@
                     <td>40,00 €</td>
                     <td>01.01.2026</td>
                     <td><span class="state-pay">bezahlt</span></td>
-                  </tr>
+                  </tr> -->
                 </tbody>
               </table>
             </div>
@@ -155,5 +172,6 @@
       </main>
     </div>
     <script src="/src/js/main.js"></script>
+    <script src="/src/js/typwriter.js"></script>
   </body>
 </html>
