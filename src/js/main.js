@@ -2,12 +2,13 @@
 const creditoren = [];
 
 class Creditor {
-  constructor(aktenzeichen, debitor, pay, date, state) {
+  constructor(aktenzeichen, debitor, pay, date, state, id) {
     this.aktenzeichen = aktenzeichen;
     this.debitor = debitor;
     this.pay = pay;
     this.date = date;
     this.state = state;
+    this.id = id;
   }
 }
 
@@ -22,6 +23,7 @@ const state = document.getElementById("state");
 const btnSave = document.getElementById("btn-save");
 const btnDelete = document.getElementById("btn-delete");
 const btnReset = document.getElementById("btn-reset");
+const btnSearch = document.getElementById("btn-search");
 
 // Debitor List
 const tbodyElement = document.getElementById("tbody");
@@ -30,8 +32,9 @@ const tbodyElement = document.getElementById("tbody");
 const form = document.getElementById("creditor-form");
 
 document.addEventListener("DOMContentLoaded", () => {
+  console.log(creditoren);
   loadLocalStorage();
-
+  loadCreditor();
   btnSave.addEventListener("click", (e) => {
     e.preventDefault();
 
@@ -41,8 +44,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     saveCreditor();
   });
-});
 
+  btnReset.addEventListener("click", () => {
+    resetInput();
+  });
+
+  btnDelete.addEventListener("click", () => {
+    console.dir(tbodyElement.children);
+  });
+});
 function loadLocalStorage() {
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
@@ -77,12 +87,13 @@ function loadLocalStorage() {
     trElement.appendChild(tdPayElement);
     trElement.appendChild(tdDateElement);
     trElement.appendChild(tdStateElement);
-
+    trElement.dataset.id = i + 1;
     tbodyElement.appendChild(trElement);
   }
 }
 
 function createdebitorList() {
+  const counter = tbodyElement.querySelectorAll("tr").length + 1;
   const tdAzElement = document.createElement("td");
   tdAzElement.appendChild(document.createTextNode(az.value));
 
@@ -104,6 +115,7 @@ function createdebitorList() {
   spanStateElement.appendChild(document.createTextNode(state.value));
 
   const trElement = document.createElement("tr");
+  trElement.dataset.id = counter;
   trElement.appendChild(tdAzElement);
   trElement.appendChild(tdCreditorElement);
   trElement.appendChild(tdPayElement);
@@ -114,17 +126,19 @@ function createdebitorList() {
 }
 
 function saveCreditor() {
+  const counter = tbodyElement.querySelectorAll("tr").length;
   const newCreditor = new Creditor(
     az.value,
     creditor.value,
     pay.value,
     new Date(date.value).toLocaleDateString("de-DE"),
-    state.value
+    state.value,
+    counter
   );
-  const rndNumber = Math.floor(Math.random() * 100 + 1);
-  localStorage.setItem(rndNumber, JSON.stringify(newCreditor));
-  creditoren.push(newCreditor);
 
+  localStorage.setItem(counter, JSON.stringify(newCreditor));
+  creditoren.push(newCreditor);
+  console.log(creditoren);
   resetInput();
 }
 
@@ -144,4 +158,32 @@ function checkState(tdStateElement, state) {
   } else if (value === "überfällig") {
     tdStateElement.classList.add("state-overdue");
   }
+}
+
+function loadCreditor() {
+  tbodyElement.addEventListener("click", (e) => {
+    const trElement = e.target.closest("tr");
+    const tdElement = trElement.querySelectorAll("td");
+
+    if (!tdElement) return;
+    let value = [];
+    for (let i = 0; i < tdElement.length; i++) {
+      value.push(tdElement[i].innerText);
+    }
+
+    az.value = value[0];
+    creditor.value = value[1];
+    pay.value = value[2];
+
+    // deutsches Datum in ISO umwandeln, damit new Date() funktioniert
+    let d = value[3].trim();
+    if (/^\d{1,2}\.\d{1,2}\.\d{4}$/.test(d)) {
+      const [day, month, year] = d.split(".");
+      d = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+    }
+
+    // jetzt sicher:
+    date.value = new Date(d).toISOString().split("T")[0];
+    state.value = value[4];
+  });
 }
