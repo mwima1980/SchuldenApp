@@ -50,10 +50,44 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   btnDelete.addEventListener("click", () => {
-    console.dir(tbodyElement.children);
+    const index = creditoren.findIndex((c) => c.aktenzeichen === az.value);
+
+    if (index !== -1) {
+      // 1. Aus dem Array löschen
+      creditoren.splice(index, 1);
+
+      // 2. Den passenden LocalStorage-Key suchen und löschen
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const item = JSON.parse(localStorage.getItem(key));
+
+        if (item && item.aktenzeichen === az.value) {
+          localStorage.removeItem(key);
+          break;
+        }
+      }
+
+      // 2. LocalStorage komplett leeren
+      localStorage.clear();
+
+      // 3. Alles aus creditoren neu speichern (mit neuer Nummerierung)
+      creditoren.forEach((c, i) => {
+        const newIndex = i + 1;
+        c.id = newIndex;
+        localStorage.setItem(newIndex, JSON.stringify(c));
+      });
+
+      // 3. Tabelle neu aufbauen
+      tbodyElement.innerHTML = "";
+      loadLocalStorage();
+    }
+
+    console.log(creditoren);
   });
 });
 function loadLocalStorage() {
+  creditoren.length = 0;
+  tbodyElement.innerHTML = "";
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     const value = localStorage.getItem(key);
