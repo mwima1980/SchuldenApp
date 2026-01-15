@@ -1,186 +1,207 @@
 "use strict";
-const creditoren = [];
 
+let creditoren = [];
+
+// ===== Klasse =====
 class Creditor {
-  constructor(aktenzeichen, debitor, pay, date, state, id) {
+  constructor(aktenzeichen, debitor, pay, date, state) {
     this.aktenzeichen = aktenzeichen;
     this.debitor = debitor;
     this.pay = pay;
     this.date = date;
     this.state = state;
-    this.id = id;
   }
 }
 
-// Case Input
+// ===== DOM Elemente =====
 const az = document.getElementById("aktenzeichen");
 const creditor = document.getElementById("creditor");
 const pay = document.getElementById("pay");
 const date = document.getElementById("date");
 const state = document.getElementById("state");
+const inputSearch = document.getElementById("input-search");
 
-// Buttons
 const btnSave = document.getElementById("btn-save");
 const btnDelete = document.getElementById("btn-delete");
 const btnReset = document.getElementById("btn-reset");
 const btnSearch = document.getElementById("btn-search");
 
-// Debitor List
 const tbodyElement = document.getElementById("tbody");
-
-// Form
 const form = document.getElementById("creditor-form");
 
+// ===== Start =====
 document.addEventListener("DOMContentLoaded", () => {
-  console.log(creditoren);
   loadLocalStorage();
+  renderTable();
   loadCreditor();
-  btnSave.addEventListener("click", (e) => {
-    e.preventDefault();
 
-    if (!form.reportValidity()) return;
-
-    createdebitorList();
-
-    saveCreditor();
-  });
-
-  btnReset.addEventListener("click", () => {
-    resetInput();
-  });
-
-  btnDelete.addEventListener("click", () => {
-    const index = creditoren.findIndex((c) => c.aktenzeichen === az.value);
-
-    if (index !== -1) {
-      // 1. Aus dem Array löschen
-      creditoren.splice(index, 1);
-
-      // 2. Den passenden LocalStorage-Key suchen und löschen
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        const item = JSON.parse(localStorage.getItem(key));
-
-        if (item && item.aktenzeichen === az.value) {
-          localStorage.removeItem(key);
-          break;
-        }
-      }
-
-      // 2. LocalStorage komplett leeren
-      localStorage.clear();
-
-      // 3. Alles aus creditoren neu speichern (mit neuer Nummerierung)
-      creditoren.forEach((c, i) => {
-        const newIndex = i + 1;
-        c.id = newIndex;
-        localStorage.setItem(newIndex, JSON.stringify(c));
-      });
-
-      // 3. Tabelle neu aufbauen
-      tbodyElement.innerHTML = "";
-      loadLocalStorage();
-    }
-
-    console.log(creditoren);
-  });
+  btnSave.addEventListener("click", handleSave);
+  btnReset.addEventListener("click", resetInput);
+  btnDelete.addEventListener("click", handleDelete);
+  btnSearch.addEventListener("click", handleSearch);
 });
-function loadLocalStorage() {
-  creditoren.length = 0;
-  tbodyElement.innerHTML = "";
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    const value = localStorage.getItem(key);
 
-    const obj = JSON.parse(value);
-    creditoren.push(obj);
+// ===== Funktionen =====
 
-    const tdAzElement = document.createElement("td");
-    tdAzElement.appendChild(document.createTextNode(obj.aktenzeichen));
+// --- Save ---
+function handleSave(e) {
+  e.preventDefault();
+  if (!form.reportValidity()) return;
 
-    const tdCreditorElement = document.createElement("td");
-    tdCreditorElement.appendChild(document.createTextNode(obj.debitor));
-
-    const tdPayElement = document.createElement("td");
-    tdPayElement.appendChild(document.createTextNode(obj.pay));
-
-    const tdDateElement = document.createElement("td");
-    tdDateElement.appendChild(document.createTextNode(obj.date));
-
-    const tdStateElement = document.createElement("td");
-    const spanStateElement = document.createElement("span");
-
-    tdStateElement.appendChild(spanStateElement);
-    spanStateElement.appendChild(document.createTextNode(obj.state));
-
-    checkState(tdStateElement, obj.state);
-
-    const trElement = document.createElement("tr");
-    trElement.appendChild(tdAzElement);
-    trElement.appendChild(tdCreditorElement);
-    trElement.appendChild(tdPayElement);
-    trElement.appendChild(tdDateElement);
-    trElement.appendChild(tdStateElement);
-    trElement.dataset.id = i + 1;
-    tbodyElement.appendChild(trElement);
-  }
-}
-
-function createdebitorList() {
-  const counter = tbodyElement.querySelectorAll("tr").length + 1;
-  const tdAzElement = document.createElement("td");
-  tdAzElement.appendChild(document.createTextNode(az.value));
-
-  const tdCreditorElement = document.createElement("td");
-  tdCreditorElement.appendChild(document.createTextNode(creditor.value));
-
-  const tdPayElement = document.createElement("td");
-  tdPayElement.appendChild(document.createTextNode(pay.value));
-
-  const tdDateElement = document.createElement("td");
-  tdDateElement.appendChild(document.createTextNode(date.value));
-
-  const tdStateElement = document.createElement("td");
-  const spanStateElement = document.createElement("span");
-
-  checkState(tdStateElement, state.value);
-
-  tdStateElement.appendChild(spanStateElement);
-  spanStateElement.appendChild(document.createTextNode(state.value));
-
-  const trElement = document.createElement("tr");
-  trElement.dataset.id = counter;
-  trElement.appendChild(tdAzElement);
-  trElement.appendChild(tdCreditorElement);
-  trElement.appendChild(tdPayElement);
-  trElement.appendChild(tdDateElement);
-  trElement.appendChild(tdStateElement);
-
-  tbodyElement.appendChild(trElement);
-}
-
-function saveCreditor() {
-  const counter = tbodyElement.querySelectorAll("tr").length;
   const newCreditor = new Creditor(
-    az.value,
-    creditor.value,
-    pay.value,
+    az.value.trim(),
+    creditor.value.trim(),
+    pay.value.trim(),
     new Date(date.value).toLocaleDateString("de-DE"),
-    state.value,
-    counter
+    state.value
   );
 
-  localStorage.setItem(counter, JSON.stringify(newCreditor));
+  // Prüfen, ob Aktenzeichen schon existiert
+  const exists = creditoren.some(
+    (c) => c.aktenzeichen === newCreditor.aktenzeichen
+  );
+  if (exists) {
+    alert("Aktenzeichen existiert bereits!");
+    return;
+  }
+
   creditoren.push(newCreditor);
-  console.log(creditoren);
+  syncLocalStorage();
+  renderTable();
   resetInput();
 }
 
-function resetInput() {
-  (az.value = ""), (creditor.value = ""), (pay.value = ""), (date.value = null);
-  state.value = "";
+// --- Delete ---
+function handleDelete() {
+  const index = creditoren.findIndex((c) => c.aktenzeichen === az.value);
+  if (index === -1) {
+    alert("Kein Eintrag ausgewählt oder Aktenzeichen unbekannt.");
+    return;
+  }
+
+  if (!confirm("Diesen Eintrag wirklich löschen?")) return;
+
+  creditoren.splice(index, 1);
+  syncLocalStorage();
+  renderTable();
+  resetInput();
 }
 
+// --- Search ---
+function handleSearch(e) {
+  e.preventDefault();
+  const searchValue = inputSearch.value.trim();
+  if (!searchValue) return alert("Bitte ein Aktenzeichen eingeben!");
+
+  const result = creditoren.find((c) => c.aktenzeichen === searchValue);
+  tbodyElement.innerHTML = "";
+
+  if (result) {
+    tbodyElement.appendChild(createRow(result));
+    fillInputs(result);
+  } else {
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    td.colSpan = 5;
+    td.textContent = "Kein Eintrag gefunden.";
+    tr.appendChild(td);
+    tbodyElement.appendChild(tr);
+  }
+}
+
+// --- LocalStorage laden ---
+function loadLocalStorage() {
+  creditoren = [];
+  const keys = Object.keys(localStorage).sort();
+
+  for (const key of keys) {
+    const obj = JSON.parse(localStorage.getItem(key));
+    creditoren.push(obj);
+  }
+}
+
+// --- LocalStorage speichern ---
+function syncLocalStorage() {
+  localStorage.clear();
+  creditoren.forEach((c) => {
+    localStorage.setItem(c.aktenzeichen, JSON.stringify(c));
+  });
+}
+
+// --- Tabelle rendern ---
+function renderTable() {
+  tbodyElement.innerHTML = "";
+  creditoren.forEach((item) => {
+    tbodyElement.appendChild(createRow(item));
+  });
+}
+
+// --- Tabellenzeile erstellen ---
+function createRow(item) {
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td>${item.aktenzeichen}</td>
+    <td>${item.debitor}</td>
+    <td>${item.pay}</td>
+    <td>${item.date}</td>
+    <td>${item.state}</td>
+  `;
+  checkState(tr.lastElementChild, item.state);
+  return tr;
+}
+
+// --- Zeile anklicken -> Input befüllen ---
+function loadCreditor() {
+  tbodyElement.addEventListener("click", (e) => {
+    const trElement = e.target.closest("tr");
+    if (!trElement) return;
+    const td = trElement.querySelectorAll("td");
+    if (!td.length) return;
+
+    const [azVal, creditorVal, payVal, dateVal, stateVal] = [...td].map(
+      (cell) => cell.textContent.trim()
+    );
+
+    az.value = azVal;
+    creditor.value = creditorVal;
+    pay.value = payVal;
+
+    let d = dateVal;
+    if (/^\d{1,2}\.\d{1,2}\.\d{4}$/.test(d)) {
+      const [day, month, year] = d.split(".");
+      d = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+    }
+    date.value = new Date(d).toISOString().split("T")[0];
+    state.value = stateVal;
+  });
+}
+
+// --- Inputfelder befüllen ---
+function fillInputs(item) {
+  az.value = item.aktenzeichen;
+  creditor.value = item.debitor;
+  pay.value = item.pay;
+
+  let d = item.date;
+  if (/^\d{1,2}\.\d{1,2}\.\d{4}$/.test(d)) {
+    const [day, month, year] = d.split(".");
+    d = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+  }
+  date.value = new Date(d).toISOString().split("T")[0];
+  state.value = item.state;
+}
+
+// --- Eingaben zurücksetzen ---
+function resetInput() {
+  az.value = "";
+  creditor.value = "";
+  pay.value = "";
+  date.value = "";
+  state.value = "";
+  inputSearch.value = "";
+}
+
+// --- Status-Klasse setzen ---
 function checkState(tdStateElement, state) {
   const value = typeof state === "object" ? state.value : state;
   tdStateElement.classList.remove("state-pay", "state-open", "state-overdue");
@@ -192,32 +213,4 @@ function checkState(tdStateElement, state) {
   } else if (value === "überfällig") {
     tdStateElement.classList.add("state-overdue");
   }
-}
-
-function loadCreditor() {
-  tbodyElement.addEventListener("click", (e) => {
-    const trElement = e.target.closest("tr");
-    const tdElement = trElement.querySelectorAll("td");
-
-    if (!tdElement) return;
-    let value = [];
-    for (let i = 0; i < tdElement.length; i++) {
-      value.push(tdElement[i].innerText);
-    }
-
-    az.value = value[0];
-    creditor.value = value[1];
-    pay.value = value[2];
-
-    // deutsches Datum in ISO umwandeln, damit new Date() funktioniert
-    let d = value[3].trim();
-    if (/^\d{1,2}\.\d{1,2}\.\d{4}$/.test(d)) {
-      const [day, month, year] = d.split(".");
-      d = `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-    }
-
-    // jetzt sicher:
-    date.value = new Date(d).toISOString().split("T")[0];
-    state.value = value[4];
-  });
 }

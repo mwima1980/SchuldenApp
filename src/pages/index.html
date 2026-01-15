@@ -43,11 +43,25 @@
               </div>
               <div class="form-row">
                 <label for="creditor">Gläubiger:</label>
-                <input type="text" name="creditor" id="creditor" required />
+                <input
+                  type="text"
+                  name="creditor"
+                  id="creditor"
+                  required
+                  pattern="^[A-Za-zÄÖÜäöüß\s-]+$"
+                />
               </div>
               <div class="form-row">
                 <label for="pay">Betrag:</label>
-                <input type="text" name="pay" id="pay" required />
+                <input
+                  id="pay"
+                  name="pay"
+                  type="number"
+                  required
+                  min="0"
+                  step="0.01"
+                  inputmode="numeric"
+                />
               </div>
               <div class="form-row">
                 <label for="date">Fällig am:</label>
@@ -98,10 +112,14 @@
               <input
                 type="search"
                 name="az-input"
-                id="btn-search"
+                id="input-search"
                 placeholder="Hier Aktenzeichen angeben..."
               />
-              <button type="submit" class="btn-default btn-search">
+              <button
+                type="submit"
+                class="btn-default btn-search"
+                id="btn-search"
+              >
                 Suchen
               </button>
             </form>
